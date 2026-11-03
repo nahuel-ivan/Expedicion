@@ -1,0 +1,792 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stellantis | Recepción de Motores</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px;
+    background: #edf1f5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #17283c;
+}
+
+.container {
+    max-width: 1150px;
+    margin: auto;
+}
+
+.header {
+    background: #10243d;
+    color: white;
+    padding: 25px;
+    border-radius: 10px 10px 0 0;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+
+.header p {
+    margin: 8px 0 0;
+    color: #b9cbe0;
+    font-size: 13px;
+}
+
+.content {
+    background: white;
+    padding: 25px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 5px 20px #00000012;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    background: #eaf0f6;
+    border-left: 4px solid #174b80;
+    padding: 10px 13px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #536477;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5df;
+    border-radius: 5px;
+    font-family: Arial;
+    font-size: 13px;
+    background: white;
+    color: #17283c;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 65px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+th {
+    background: #183653;
+    color: white;
+    padding: 10px 7px;
+    text-align: left;
+}
+
+td {
+    border: 1px solid #d8e0e8;
+    padding: 6px;
+}
+
+td input, td select {
+    border: 1px solid #dce3ea;
+    padding: 8px 5px;
+    border-radius: 3px;
+}
+
+.motor-table th:nth-child(1) { width: 5%; }
+.motor-table th:nth-child(2) { width: 27%; }
+.motor-table th:nth-child(3) { width: 20%; }
+.motor-table th:nth-child(4) { width: 17%; }
+.motor-table th:nth-child(5) { width: 31%; }
+
+.checklist td:first-child {
+    width: 48%;
+}
+
+.checklist td:not(:first-child) {
+    width: 17%;
+    text-align: center;
+}
+
+.checklist select {
+    text-align: center;
+    font-weight: bold;
+}
+
+.observations {
+    min-height: 95px;
+}
+
+.signatures {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 35px;
+}
+
+.signature {
+    text-align: center;
+    padding-top: 65px;
+    border-bottom: 1px solid #17283c;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.signature small {
+    display: block;
+    margin-top: 8px;
+    font-weight: normal;
+    color: #536477;
+}
+
+.declaration {
+    background: #f5f7f9;
+    border: 1px solid #dce3ea;
+    padding: 12px;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-top: 20px;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+button {
+    border: none;
+    padding: 13px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.print-btn {
+    background: #174b80;
+    color: white;
+}
+
+.clear-btn {
+    background: #e6ebf0;
+    color: #27394c;
+}
+
+button:hover {
+    opacity: .85;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 11px;
+    color: #8190a0;
+}
+
+@media(max-width: 700px) {
+    body {
+        padding: 8px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .content {
+        padding: 14px;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+
+    .motor-table {
+        min-width: 750px;
+    }
+
+    .checklist {
+        min-width: 480px;
+    }
+
+    .signatures {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+}
+
+/* CONFIGURACIÓN DE IMPRESIÓN */
+
+@page {
+    size: A4 landscape;
+    margin: 8mm;
+}
+
+@media print {
+
+    body {
+        padding: 0;
+        margin: 0;
+        background: white;
+        color: black;
+        font-size: 10px;
+    }
+
+    .container {
+        max-width: none;
+        width: 100%;
+    }
+
+    .header {
+        padding: 10px 14px;
+        border-radius: 0;
+        background: #10243d !important;
+        color: white !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .header h1 {
+        font-size: 19px;
+    }
+
+    .header p {
+        font-size: 10px;
+    }
+
+    .content {
+        padding: 10px 12px;
+        box-shadow: none;
+    }
+
+    .section {
+        margin-bottom: 12px;
+        break-inside: avoid;
+    }
+
+    .section-title {
+        padding: 6px 9px;
+        margin-bottom: 8px;
+        font-size: 10px;
+        background: #eaf0f6 !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .grid {
+        gap: 8px;
+    }
+
+    .field {
+        gap: 3px;
+    }
+
+    .field label {
+        font-size: 9px;
+    }
+
+    input, select, textarea {
+        padding: 5px 4px;
+        font-size: 10px;
+        border: 1px solid #9daab7;
+        border-radius: 0;
+        color: black;
+        background: white;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    table {
+        font-size: 9px;
+    }
+
+    th {
+        padding: 6px 5px;
+        background: #183653 !important;
+        color: white !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    td {
+        padding: 3px 4px;
+    }
+
+    td input, td select {
+        padding: 4px 3px;
+        font-size: 9px;
+        border: none;
+        background: transparent;
+    }
+
+    .motor-table td input {
+        min-height: 22px;
+    }
+
+    .checklist select {
+        text-align: center;
+        text-align-last: center;
+        font-weight: bold;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+
+    .observations {
+        min-height: 48px;
+    }
+
+    .signatures {
+        gap: 35px;
+        margin-top: 22px;
+    }
+
+    .signature {
+        padding-top: 42px;
+        font-size: 10px;
+    }
+
+    .signature small {
+        font-size: 9px;
+    }
+
+    .declaration {
+        padding: 7px;
+        font-size: 9px;
+        margin-top: 12px;
+    }
+
+    .actions, .footer {
+        display: none !important;
+    }
+
+    .section, .signatures, .declaration {
+        break-inside: avoid;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>STELLANTIS | CONTROL DE RECEPCIÓN DE MOTORES</h1>
+        <p>EXPORTACIÓN · REGISTRO DE CONFORMIDAD DE ENTREGA DE LÍNEA</p>
+    </div>
+
+    <div class="content">
+
+        <!-- DATOS GENERALES -->
+
+        <div class="section">
+
+            <div class="section-title">
+                01. IDENTIFICACIÓN DEL RACK
+            </div>
+
+            <div class="grid">
+
+                <div class="field">
+                    <label>Fecha de recepción</label>
+                    <input type="date" id="fecha">
+                </div>
+
+                <div class="field">
+                    <label>Hora de recepción</label>
+                    <input type="time" id="hora">
+                </div>
+
+                <div class="field">
+                    <label>Número de rack</label>
+                    <input type="text" placeholder="N° de rack">
+                </div>
+
+                <div class="field">
+                    <label>Línea de procedencia</label>
+                    <input type="text" placeholder="Línea">
+                </div>
+
+                <div class="field">
+                    <label>Destino / Exportación</label>
+                    <input type="text" placeholder="Destino">
+                </div>
+
+                <div class="field">
+                    <label>Orden / Lote (opcional)</label>
+                    <input type="text" placeholder="N° de orden o lote">
+                </div>
+
+                <div class="field">
+                    <label>Responsable que entrega</label>
+                    <input type="text" placeholder="Nombre y apellido">
+                </div>
+
+                <div class="field">
+                    <label>Responsable que recibe</label>
+                    <input type="text" placeholder="Nombre y apellido">
+                </div>
+
+                <div class="field">
+                    <label>Cantidad total de motores</label>
+                    <select id="cantidad" onchange="actualizarMotores()">
+                        <option value="1">1 motor</option>
+                        <option value="2">2 motores</option>
+                        <option value="3">3 motores</option>
+                        <option value="4">4 motores</option>
+                        <option value="5">5 motores</option>
+                        <option value="6" selected>6 motores</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- MOTORES -->
+
+        <div class="section">
+
+            <div class="section-title">
+                02. IDENTIFICACIÓN DE LOS MOTORES
+            </div>
+
+            <div class="table-wrap">
+                <table class="motor-table">
+
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Número de motor / Serie</th>
+                            <th>Modelo</th>
+                            <th>Estado</th>
+                            <th>Observaciones particulares</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tablaMotores"></tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+        <!-- CHECKLIST -->
+
+        <div class="section">
+
+            <div class="section-title">
+                03. CHECKLIST DE RECEPCIÓN
+            </div>
+
+            <div class="table-wrap">
+                <table class="checklist">
+
+                    <thead>
+                        <tr>
+                            <th>CONDICIÓN A VERIFICAR</th>
+                            <th>CONFORME</th>
+                            <th>NO CONFORME</th>
+                            <th>NO APLICA</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tablaChecklist"></tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+        <!-- OBSERVACIONES -->
+
+        <div class="section">
+
+            <div class="section-title">
+                04. OBSERVACIONES GENERALES
+            </div>
+
+            <div class="field">
+                <label>Describir daños, faltantes, anomalías o cualquier otra observación detectada:</label>
+                <textarea class="observations"
+                    placeholder="Detallar las observaciones encontradas durante la recepción del rack..."></textarea>
+            </div>
+
+        </div>
+
+        <!-- RESULTADO -->
+
+        <div class="section">
+
+            <div class="section-title">
+                05. RESULTADO DE LA RECEPCIÓN
+            </div>
+
+            <div class="grid">
+
+                <div class="field">
+                    <label>Resultado</label>
+                    <select>
+                        <option value="">Seleccionar resultado</option>
+                        <option>RECIBIDO CONFORME</option>
+                        <option>RECIBIDO CON OBSERVACIONES</option>
+                        <option>RECHAZADO / NO APTO</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Acción / seguimiento requerido</label>
+                    <input type="text" placeholder="Acción a realizar">
+                </div>
+
+                <div class="field">
+                    <label>Responsable del seguimiento</label>
+                    <input type="text" placeholder="Nombre y apellido">
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FIRMAS -->
+
+        <div class="section">
+
+            <div class="section-title">
+                06. FIRMAS Y CONFORMIDAD
+            </div>
+
+            <div class="signatures">
+
+                <div class="signature">
+                    FIRMA DE QUIEN ENTREGA
+                    <small>Aclaración:</small>
+                </div>
+
+                <div class="signature">
+                    FIRMA DE QUIEN RECIBE
+                    <small>Aclaración:</small>
+                </div>
+
+                <div class="signature">
+                    RESPONSABLE DE VALIDACIÓN
+                    <small>Aclaración:</small>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="declaration">
+            <strong>DECLARACIÓN DE RECEPCIÓN:</strong>
+            El presente documento deja constancia de las condiciones visibles
+            y observaciones detectadas al momento de recibir el rack de motores
+            desde la línea. Las firmas acreditan la recepción y las condiciones
+            registradas en este formulario. Cualquier anomalía deberá quedar
+            detallada en los apartados correspondientes.
+        </div>
+
+        <div class="actions">
+
+            <button class="print-btn" onclick="window.print()">
+                🖨 IMPRIMIR FORMULARIO
+            </button>
+
+            <button class="clear-btn" onclick="limpiarFormulario()">
+                LIMPIAR FORMULARIO
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        STELLANTIS · CONTROL DE RECEPCIÓN · EXPORTACIÓN
+    </div>
+
+</div>
+
+<script>
+
+const motores = document.getElementById("tablaMotores");
+
+function actualizarMotores() {
+
+    const cantidad = Number(document.getElementById("cantidad").value);
+
+    motores.innerHTML = "";
+
+    for (let i = 1; i <= cantidad; i++) {
+
+        const fila = document.createElement("tr");
+
+        fila.innerHTML = `
+            <td><strong>${i}</strong></td>
+
+            <td>
+                <input type="text" placeholder="N° de motor">
+            </td>
+
+            <td>
+                <input type="text" placeholder="Modelo">
+            </td>
+
+            <td>
+                <select>
+                    <option value="">Seleccionar</option>
+                    <option>Conforme</option>
+                    <option>Observado</option>
+                    <option>No conforme</option>
+                </select>
+            </td>
+
+            <td>
+                <input type="text" placeholder="Detalle de observación">
+            </td>
+        `;
+
+        motores.appendChild(fila);
+
+    }
+
+}
+
+const verificaciones = [
+    "Motor sin golpes ni daños visibles",
+    "Motor sin pérdidas de aceite u otros fluidos",
+    "Sin piezas faltantes o componentes sueltos",
+    "Conectores eléctricos en buen estado",
+    "Mangueras y conexiones en buen estado",
+    "Soportes y puntos de fijación sin daños",
+    "Tapones y protecciones correctamente colocados",
+    "Identificación y numeración de motores legibles",
+    "Motores correctamente posicionados en el rack",
+    "Motores correctamente sujetos y asegurados",
+    "Rack sin golpes ni deformaciones visibles",
+    "Rack en condiciones de manipulación y traslado"
+];
+
+const checklist = document.getElementById("tablaChecklist");
+
+verificaciones.forEach((item, i) => {
+
+    const fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${i + 1}. ${item}</td>
+
+        <td>
+            <select>
+                <option value="">-</option>
+                <option>SI</option>
+                <option>NO</option>
+                <option>N/A</option>
+            </select>
+        </td>
+
+        <td>
+            <span></span>
+        </td>
+
+        <td>
+            <span></span>
+        </td>
+    `;
+
+    // Un único selector permite elegir un solo resultado
+    // y evita marcar dos estados diferentes.
+
+    fila.cells[1].colSpan = 3;
+    fila.deleteCell(3);
+    fila.deleteCell(2);
+
+    fila.cells[1].innerHTML = `
+        <select>
+            <option value="">Seleccionar</option>
+            <option>CONFORME</option>
+            <option>NO CONFORME</option>
+            <option>NO APLICA</option>
+        </select>
+    `;
+
+    checklist.appendChild(fila);
+
+});
+
+// Fecha y hora automáticas
+
+function establecerFechaHora() {
+
+    const ahora = new Date();
+
+    const fecha = new Date(
+        ahora.getTime() - ahora.getTimezoneOffset() * 60000
+    ).toISOString().slice(0, 10);
+
+    const hora = ahora.toTimeString().slice(0, 5);
+
+    document.getElementById("fecha").value = fecha;
+    document.getElementById("hora").value = hora;
+
+}
+
+function limpiarFormulario() {
+
+    if (!confirm("¿Seguro que querés limpiar todos los datos?")) {
+        return;
+    }
+
+    document.querySelectorAll("input, textarea").forEach(campo => {
+        campo.value = "";
+    });
+
+    document.querySelectorAll("select").forEach(campo => {
+        campo.selectedIndex = 0;
+    });
+
+    document.getElementById("cantidad").value = "6";
+
+    actualizarMotores();
+    establecerFechaHora();
+
+}
+
+actualizarMotores();
+establecerFechaHora();
+
+</script>
+
+</body>
+</html>
