@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -246,7 +247,7 @@ button:hover {
     }
 }
 
-/* IMPRESIÓN */
+/* CONFIGURACIÓN DE IMPRESIÓN */
 
 @page {
     size: A4 landscape;
@@ -393,6 +394,7 @@ button:hover {
     .section, .signatures, .declaration {
         break-inside: avoid;
     }
+
 }
 </style>
 </head>
@@ -408,7 +410,7 @@ button:hover {
 
     <div class="content">
 
-        <!-- 01 IDENTIFICACIÓN -->
+        <!-- DATOS GENERALES -->
 
         <div class="section">
 
@@ -435,21 +437,12 @@ button:hover {
 
                 <div class="field">
                     <label>Línea de procedencia</label>
-                    <select>
-                        <option value="">Seleccionar línea</option>
-                        <option>DRESS UP</option>
-                        <option>HOT TEST</option>
-                    </select>
+                    <input type="text" placeholder="Línea">
                 </div>
 
                 <div class="field">
                     <label>Destino / Exportación</label>
-                    <select>
-                        <option value="">Seleccionar destino</option>
-                        <option>URUGUAY</option>
-                        <option>BRASIL</option>
-                        <option>ARGENTINA</option>
-                    </select>
+                    <input type="text" placeholder="Destino">
                 </div>
 
                 <div class="field">
@@ -482,7 +475,7 @@ button:hover {
             </div>
         </div>
 
-        <!-- 02 MOTORES -->
+        <!-- MOTORES -->
 
         <div class="section">
 
@@ -510,7 +503,7 @@ button:hover {
 
         </div>
 
-        <!-- 03 CHECKLIST -->
+        <!-- CHECKLIST -->
 
         <div class="section">
 
@@ -524,7 +517,9 @@ button:hover {
                     <thead>
                         <tr>
                             <th>CONDICIÓN A VERIFICAR</th>
-                            <th>RESULTADO</th>
+                            <th>CONFORME</th>
+                            <th>NO CONFORME</th>
+                            <th>NO APLICA</th>
                         </tr>
                     </thead>
 
@@ -535,7 +530,7 @@ button:hover {
 
         </div>
 
-        <!-- 04 OBSERVACIONES -->
+        <!-- OBSERVACIONES -->
 
         <div class="section">
 
@@ -551,7 +546,7 @@ button:hover {
 
         </div>
 
-        <!-- 05 RESULTADO -->
+        <!-- RESULTADO -->
 
         <div class="section">
 
@@ -585,7 +580,7 @@ button:hover {
 
         </div>
 
-        <!-- 06 FIRMAS -->
+        <!-- FIRMAS -->
 
         <div class="section">
 
@@ -645,15 +640,11 @@ button:hover {
 
 <script>
 
-// GENERAR FILAS DE MOTORES
-
 const motores = document.getElementById("tablaMotores");
 
 function actualizarMotores() {
 
-    const cantidad = Number(
-        document.getElementById("cantidad").value
-    );
+    const cantidad = Number(document.getElementById("cantidad").value);
 
     motores.innerHTML = "";
 
@@ -687,10 +678,10 @@ function actualizarMotores() {
         `;
 
         motores.appendChild(fila);
-    }
-}
 
-// CHECKLIST DE RECEPCIÓN
+    }
+
+}
 
 const verificaciones = [
     "Motor sin golpes ni daños visibles",
@@ -718,19 +709,43 @@ verificaciones.forEach((item, i) => {
 
         <td>
             <select>
-                <option value="">Seleccionar</option>
-                <option>CONFORME</option>
-                <option>NO CONFORME</option>
-                <option>NO APLICA</option>
+                <option value="">-</option>
+                <option>SI</option>
+                <option>NO</option>
+                <option>N/A</option>
             </select>
         </td>
+
+        <td>
+            <span></span>
+        </td>
+
+        <td>
+            <span></span>
+        </td>
+    `;
+
+    // Un único selector permite elegir un solo resultado
+    // y evita marcar dos estados diferentes.
+
+    fila.cells[1].colSpan = 3;
+    fila.deleteCell(3);
+    fila.deleteCell(2);
+
+    fila.cells[1].innerHTML = `
+        <select>
+            <option value="">Seleccionar</option>
+            <option>CONFORME</option>
+            <option>NO CONFORME</option>
+            <option>NO APLICA</option>
+        </select>
     `;
 
     checklist.appendChild(fila);
 
 });
 
-// FECHA Y HORA AUTOMÁTICAS
+// Fecha y hora automáticas
 
 function establecerFechaHora() {
 
@@ -746,8 +761,6 @@ function establecerFechaHora() {
     document.getElementById("hora").value = hora;
 
 }
-
-// LIMPIAR FORMULARIO
 
 function limpiarFormulario() {
 
@@ -769,8 +782,6 @@ function limpiarFormulario() {
     establecerFechaHora();
 
 }
-
-// INICIALIZACIÓN
 
 actualizarMotores();
 establecerFechaHora();
